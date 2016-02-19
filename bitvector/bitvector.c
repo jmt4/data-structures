@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int allocate_vector(char** bv, int bits)
+int allocate_vector(unsigned char** bv, int bits)
 {
 	*bv = calloc(bits/WORDSIZE + 1, sizeof(char));
 	if (*bv == NULL) return -1;
@@ -12,10 +12,10 @@ int allocate_vector(char** bv, int bits)
 void clear_bit(char** bv, int n)
 {
 	/* release pid from vector if found else nothing */
-	*bv = *bv[n >> BITSHIFT] & ~(1 << (n & BITMASK));
+	*bv[n >> BITSHIFT] = *bv[n >> BITSHIFT] & ~(1 << (n & BITMASK));
 }
 
-int set_bit(char bv[], int n)
+int set_bit(unsigned char bv[], int n)
 {
 	/*calculate bucket by dividing by size of char (8 bits per byte)
 	  then we can set nth bit by shifting 1 n%BITMASK spaces and
@@ -25,7 +25,7 @@ int set_bit(char bv[], int n)
 	return 1;
 }
 
-int destroy_vector(char** bv)
+void destroy_vector(char** bv)
 {
 	free(*bv);
 }
