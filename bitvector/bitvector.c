@@ -9,10 +9,10 @@ int allocate_vector(unsigned char** bv, int bits)
 	else return 1;
 }
 
-void clear_bit(char** bv, int n)
+void clear_bit(unsigned char bv[], int n)
 {
 	/* release pid from vector if found else nothing */
-	*bv[n >> BITSHIFT] = *bv[n >> BITSHIFT] & ~(1 << (n & BITMASK));
+	bv[n >> BITSHIFT] = bv[n >> BITSHIFT] & ~(1 << (n & BITMASK));
 }
 
 int set_bit(unsigned char bv[], int n)
@@ -25,12 +25,13 @@ int set_bit(unsigned char bv[], int n)
 	return 1;
 }
 
-void destroy_vector(char** bv)
+void destroy_vector(unsigned char** bv)
 {
 	free(*bv);
+	*bv = NULL;
 }
 
-int check_bit(char bv[], int n)
+int check_bit(unsigned char bv[], int n)
 {
 	/* figure out bucket with operations in index
 	   then we AND that value with 1 shifted to the
